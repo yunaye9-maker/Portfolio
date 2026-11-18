@@ -15,7 +15,7 @@
   <a class="skip-link" href="#main">Skip to content</a>
   <header class="site-header">
     <a class="brand" href="#home" aria-label="Yuna Ye home">
-      <img src="images/Yuna.png" alt="" width="46" height="52">
+      <span class="brand-mark"><img src="images/Yunalogo.png" alt="" width="2550" height="3300"></span>
       <span>YUNA YE<span class="brand-dot">.</span></span>
     </a>
     <nav aria-label="Main navigation">
@@ -70,7 +70,7 @@
             <img src="images/vectorportrait.png" alt="Anime-inspired vector self-portrait" loading="lazy">
             <span class="view-project">VIEW IMAGE <span aria-hidden="true">↗</span></span>
           </button>
-          <div class="project-meta"><span>02 / VECTOR ART</span><span>2025</span></div>
+          <div class="project-meta"><span>02 / VECTOR ART</span><span>MMA 100</span></div>
           <h3>Self portrait</h3>
           <p>A hand-planned, anime-inspired vector portrait exploring line, shape, and personal style.</p>
         </article>
@@ -79,7 +79,7 @@
             <img src="images/WebDesignMidterm.png" alt="A cat-themed website design featuring a collection of cat profiles" loading="lazy">
             <span class="view-project">VIEW IMAGE <span aria-hidden="true">↗</span></span>
           </button>
-          <div class="project-meta"><span>03 / WEB DESIGN</span><span>2026</span></div>
+          <div class="project-meta"><span>03 / WEB DESIGN</span><span>MMP 240</span></div>
           <h3>Catpedia</h3>
           <p>A friendly cat-themed site concept with custom branding, a history page, and nine cat profiles.</p>
         </article>
@@ -88,7 +88,7 @@
             <img src="images/Line_Logo.png" alt="DNR Studio Game Logo" loading="lazy">
             <span class="view-project">VIEW IMAGE <span aria-hidden="true">↗</span></span>
           </button>
-          <div class="project-meta"><span>04 / INTERNSHIP</span><span>2026</span></div>
+          <div class="project-meta"><span>03 / WEB DESIGN</span><span>MMP 240</span></div>
           <h3>DNR Studio Game Logo</h3>
           <p>An internship project creating a game logo for a studio.</p>
         </article>
@@ -98,25 +98,27 @@
             <img src="images/VectorOutfit.png" alt="Stylized character fashion illustration in a vector outfit composition" loading="lazy">
             <span class="view-project">VIEW IMAGE <span aria-hidden="true">↗</span></span>
           </button>
-          <div class="project-meta"><span>05 / VECTOR ART</span><span>2025</span></div>
+          <div class="project-meta"><span>04 / VECTOR ART</span><span>MMA 110</span></div>
           <h3>Vector Outfit</h3>
           <p>A stylized character illustration exploring costume design, silhouette, and expressive vector detailing.</p>
         </article>
-        
+
         <article class="project-card">
-          <div class="project-media-shell">
+          <div class="project-media-shell" tabindex="0" role="button" data-media-type="video" data-media-src="videos/Magic_Artifacts.mp4" data-title="Magic Artifacts — motion study" aria-label="Open Magic Artifacts video">
             <video src="videos/Magic_Artifacts.mp4" controls preload="metadata" playsinline aria-label="Magic Artifacts video"></video>
+            <span class="view-project">VIEW VIDEO <span aria-hidden="true">↗</span></span>
           </div>
-          <div class="project-meta"><span>06 / VIDEO</span><span>2025</span></div>
+          <div class="project-meta"><span>05 / VIDEO</span><span>2025</span></div>
           <h3>Magic Artifacts</h3>
           <p>An experimental motion study blending atmospheric visuals, surreal textures, and artifact-inspired storytelling.</p>
         </article>
 
         <article class="project-card">
-          <div class="project-media-shell audio-shell">
+          <div class="project-media-shell audio-shell" tabindex="0" role="button" data-media-type="audio" data-media-src="audio/1800s_Affair.mp3" data-title="1800s Affair — audio piece" aria-label="Open 1800s Affair audio">
             <audio src="audio/1800s_Affair.mp3" controls preload="metadata" aria-label="1800s Affair audio"></audio>
+            <span class="view-project">LISTEN <span aria-hidden="true">↗</span></span>
           </div>
-          <div class="project-meta"><span>07 / AUDIO</span><span>2025</span></div>
+          <div class="project-meta"><span>06 / AUDIO</span><span>2025</span></div>
           <h3>1800s Affair</h3>
           <p>A short sound-driven piece built around mood, tension, and an old-world romantic atmosphere.</p>
         </article>
@@ -190,29 +192,75 @@
     <a class="back-to-top" href="#home">BACK TO TOP ↑</a>
   </footer>
 
-  <dialog class="image-dialog" id="image-dialog" aria-label="Project image">
-    <button class="dialog-close" type="button" aria-label="Close image">×</button>
-    <img id="dialog-image" alt="">
+  <dialog class="image-dialog" id="image-dialog" aria-label="Project media">
+    <button class="dialog-close" type="button" aria-label="Close media">×</button>
+    <div id="dialog-media" class="dialog-media" aria-live="polite"></div>
     <p id="dialog-caption"></p>
   </dialog>
 
   <script>
     const imageDialog = document.getElementById("image-dialog");
-    const dialogImage = document.getElementById("dialog-image");
+    const dialogMedia = document.getElementById("dialog-media");
     const dialogCaption = document.getElementById("dialog-caption");
 
+    const openProjectMedia = (element) => {
+      const type = element.dataset.mediaType || "image";
+      const source = element.dataset.mediaSrc || element.dataset.image;
+      const title = element.dataset.title;
+
+      dialogMedia.innerHTML = "";
+      dialogCaption.textContent = title;
+
+      if (type === "image") {
+        const image = document.createElement("img");
+        image.src = source;
+        image.alt = element.querySelector("img")?.alt || "";
+        dialogMedia.appendChild(image);
+      }
+
+      if (type === "video") {
+        const video = document.createElement("video");
+        video.src = source;
+        video.controls = true;
+        video.preload = "metadata";
+        video.playsInline = true;
+        dialogMedia.appendChild(video);
+      }
+
+      if (type === "audio") {
+        const audio = document.createElement("audio");
+        audio.src = source;
+        audio.controls = true;
+        audio.preload = "metadata";
+        dialogMedia.appendChild(audio);
+      }
+
+      imageDialog.showModal();
+    };
+
     document.querySelectorAll(".project-image").forEach((button) => {
-      button.addEventListener("click", () => {
-        dialogImage.src = button.dataset.image;
-        dialogImage.alt = button.querySelector("img").alt;
-        dialogCaption.textContent = button.dataset.title;
-        imageDialog.showModal();
+      button.addEventListener("click", () => openProjectMedia(button));
+    });
+
+    document.querySelectorAll(".project-media-shell").forEach((mediaShell) => {
+      mediaShell.addEventListener("click", (event) => {
+        if (event.target.closest("video, audio")) return;
+        openProjectMedia(mediaShell);
+      });
+      mediaShell.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          openProjectMedia(mediaShell);
+        }
       });
     });
 
     imageDialog.querySelector(".dialog-close").addEventListener("click", () => imageDialog.close());
     imageDialog.addEventListener("click", (event) => {
       if (event.target === imageDialog) imageDialog.close();
+    });
+    imageDialog.addEventListener("close", () => {
+      dialogMedia.innerHTML = "";
     });
 
     const stages = [
