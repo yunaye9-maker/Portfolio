@@ -87,13 +87,21 @@ input:focus-visible {
   letter-spacing: 0.13em;
 }
 
-.brand img {
-  width: 34px;
-  height: 38px;
-  object-fit: cover;
-  object-position: center 25%;
+.brand-mark {
+  width: 80px;
+  height: 80px;
+  flex: 0 0 auto;
+  overflow: hidden;
   border-radius: 50%;
   background: var(--surface-light);
+}
+
+.brand-mark img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transform: scale(1.7);
 }
 
 .brand-dot {
@@ -376,11 +384,18 @@ input:focus-visible {
 }
 
 .project-media-shell {
+  position: relative;
   display: block;
   width: 100%;
   overflow: hidden;
   border: 1px solid var(--line);
   background: var(--surface-light);
+  cursor: pointer;
+}
+
+.project-media-shell:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
 }
 
 .project-media-shell video,
@@ -408,9 +423,35 @@ input:focus-visible {
   min-height: 52px;
 }
 
+.project-media-shell:hover video,
+.project-media-shell:hover audio {
+  opacity: 0.8;
+}
+
 .project-image:hover img {
   transform: scale(1.025);
   opacity: 0.8;
+}
+
+.project-media-shell .view-project {
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+  padding: 9px 12px;
+  background: var(--accent);
+  color: var(--background);
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.07em;
+  opacity: 0;
+  transform: translateY(5px);
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+
+.project-media-shell:hover .view-project,
+.project-media-shell:focus-visible .view-project {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .view-project {
@@ -729,12 +770,28 @@ input:focus-visible {
   backdrop-filter: blur(4px);
 }
 
-.image-dialog img {
+.dialog-media {
+  display: grid;
+  place-items: center;
+  min-height: 220px;
+}
+
+.dialog-media img,
+.dialog-media video,
+.dialog-media audio {
   display: block;
   max-width: 100%;
   max-height: calc(90vh - 90px);
   margin: 0 auto;
+}
+
+.dialog-media img,
+.dialog-media video {
   object-fit: contain;
+}
+
+.dialog-media audio {
+  width: min(100%, 460px);
 }
 
 .image-dialog p {
@@ -813,9 +870,9 @@ input:focus-visible {
     font-size: 11px;
   }
 
-  .brand img {
-    width: 28px;
-    height: 32px;
+  .brand-mark {
+    width: 64px;
+    height: 64px;
   }
 
   .site-header nav {
